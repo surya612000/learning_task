@@ -8,3 +8,7 @@ models.Base.metadata.create_all(bind=engine)
 
 
 app=FastAPI()
+
+@app.get("/users")
+def get_user(id:int):
+    return {"id":id}

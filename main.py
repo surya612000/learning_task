@@ -15,6 +15,14 @@ def get_user(id:int):
     return {"id":id}
 
 @app.get("/users/{id}")
-def create_user(id:int,db:Session=Depends(get_db)):
+def get_user(id:int,db:Session=Depends(get_db)):
     db_user=db.query(models.Student).filter(models.Student.id==id).first()
     return db_user
+
+@app.post("/users_create/")
+def create_user(request:RequestStart,db:Session=Depends(get_db)):
+    db_student=models.Student(**request.dict())
+    db.add(db_student)
+    db.commit()
+    db.refresh(db_student)
+    return {"detail":"student is successfully inserted","student_detail":db_student}

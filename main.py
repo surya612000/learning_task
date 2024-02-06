@@ -1,7 +1,7 @@
 from fastapi import  FastAPI,Depends
 from database import  engine,get_db
 # from routers import Customer,Customer_refer,Product,Productvariations,Order,Orderitems,login
-import models
+import models,schemas
 from sqlalchemy.orm import Session
 
 
@@ -20,7 +20,7 @@ def get_user(id:int,db:Session=Depends(get_db)):
     return db_user
 
 @app.post("/users_create/")
-def create_user(request:RequestStart,db:Session=Depends(get_db)):
+def create_user(request:schemas.createUser,db:Session=Depends(get_db)):
     db_student=models.Student(**request.dict())
     db.add(db_student)
     db.commit()
